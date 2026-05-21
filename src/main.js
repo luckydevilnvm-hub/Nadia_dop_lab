@@ -1,25 +1,21 @@
-// Простой пример "нестандартного элемента": переключатель темы.
-// TODO студент: замени или дополни своим.
+// ===== Переключатель тёмной темы =====
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
 
-const STORAGE_KEY = 'cv-theme';
+// Проверяем, есть ли сохранённая тема в localStorage
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  body.classList.add('dark-mode');
+}
 
-const getInitialTheme = () => {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) return saved;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-};
-
-const applyTheme = (theme) => {
-  document.documentElement.dataset.theme = theme;
-  localStorage.setItem(STORAGE_KEY, theme);
-};
-
-const toggle = document.getElementById('theme-toggle');
-applyTheme(getInitialTheme());
-
-toggle?.addEventListener('click', () => {
-  const current = document.documentElement.dataset.theme;
-  applyTheme(current === 'dark' ? 'light' : 'dark');
+// Обработчик клика
+themeToggle?.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+  
+  // Сохраняем выбор пользователя
+  const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+  localStorage.setItem('theme', currentTheme);
 });
+
+// ===== Опционально: консольное приветствие =====
+console.log('👋 CV загружен! Нажми 🌗 для смены темы');
